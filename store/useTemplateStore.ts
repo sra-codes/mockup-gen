@@ -28,6 +28,7 @@ export interface CoverProps {
 }
 
 export interface TemplateState {
+  templateName: string;
   backgroundImage: string | null;
   backgroundWidth: number;
   backgroundHeight: number;
@@ -42,6 +43,7 @@ export interface TemplateState {
   previewMode: boolean;
 
   // Actions
+  setTemplateName: (templateName: string) => void;
   setBackgroundImage: (url: string | null, width?: number, height?: number) => void;
   addElement: (type: ElementType, shape: ShapeType) => void;
   updateElement: (id: string, updates: Partial<TemplateElement>) => void;
@@ -58,6 +60,7 @@ export interface TemplateState {
   loadMockup: (mockup: PhoneMockup) => void;
 }
 
+const DEFAULT_TEMPLATE_NAME = 'Untitled Template';
 const defaultCoverProps: CoverProps = { x: 0, y: 0, scale: 1, rotation: 0 };
 
 const getDefaultElementProps = (type: ElementType, shape: ShapeType): Partial<TemplateElement> => {
@@ -90,6 +93,7 @@ const getDefaultElementProps = (type: ElementType, shape: ShapeType): Partial<Te
 };
 
 export const useTemplateStore = create<TemplateState>((set, get) => ({
+  templateName: DEFAULT_TEMPLATE_NAME,
   backgroundImage: null,
   backgroundWidth: 0,
   backgroundHeight: 0,
@@ -102,6 +106,10 @@ export const useTemplateStore = create<TemplateState>((set, get) => ({
   coverImage: null,
   coverProps: defaultCoverProps,
   previewMode: false,
+
+  setTemplateName: (templateName) => set({
+    templateName: templateName.trim() || DEFAULT_TEMPLATE_NAME,
+  }),
 
   setBackgroundImage: (url, width = 0, height = 0) => set({ 
     backgroundImage: url, 
@@ -185,6 +193,7 @@ export const useTemplateStore = create<TemplateState>((set, get) => ({
   },
 
   reset: () => set({
+    templateName: DEFAULT_TEMPLATE_NAME,
     backgroundImage: null,
     backgroundWidth: 0,
     backgroundHeight: 0,
@@ -205,6 +214,7 @@ export const useTemplateStore = create<TemplateState>((set, get) => ({
   setPreviewMode: (val) => set({ previewMode: val, selectedId: null }),
   
   loadMockup: (mockup) => set({
+    templateName: mockup.name,
     backgroundImage: mockup.getSvg(),
     backgroundWidth: mockup.width,
     backgroundHeight: mockup.height,

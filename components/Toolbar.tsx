@@ -1,15 +1,17 @@
 'use client';
 
+import { stripFileExtension, toSlug } from '@/lib/utils';
+import { PREDEFINED_MOCKUPS } from '@/lib/mockups';
 import { useTemplateStore } from '@/store/useTemplateStore';
 import { ImagePlus, Square, Circle, Undo, Redo, Download, RefreshCw, Smartphone, Eye, EyeOff } from 'lucide-react';
 import { useRef } from 'react';
-import { PREDEFINED_MOCKUPS } from '@/lib/mockups';
 
 export function Toolbar() {
   const { 
     addElement, undo, redo, reset, historyStep, history, 
     setBackgroundImage, elements, backgroundWidth, backgroundHeight,
-    loadMockup, setCoverImage, previewMode, setPreviewMode
+    loadMockup, setCoverImage, previewMode, setPreviewMode,
+    templateName, setTemplateName
   } = useTemplateStore();
   
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -24,6 +26,7 @@ export function Toolbar() {
         const img = new Image();
         img.onload = () => {
           setBackgroundImage(event.target?.result as string, img.width, img.height);
+          setTemplateName(stripFileExtension(file.name));
         };
         img.src = event.target?.result as string;
       };
@@ -49,6 +52,7 @@ export function Toolbar() {
 
     // Export logic
     const exportData = {
+      name: templateName,
       frame: 'frame.png', // Ideally the filename
       mask: elements.filter(e => e.type === 'mask').map(e => ({
         x: e.x / backgroundWidth,
@@ -74,7 +78,7 @@ export function Toolbar() {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportData, null, 2));
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute('href', dataStr);
-    downloadAnchorNode.setAttribute('download', 'mockup-template.json');
+  downloadAnchorNode.setAttribute('download', `${toSlug(templateName)}-template.json`);
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
@@ -103,6 +107,19 @@ export function Toolbar() {
             ))}
           </select>
           <p className="text-xs text-slate-400">Start from a preset device outline or switch to your own frame below.</p>
+          <div className="space-y-1 pt-2">
+            <label htmlFor="template-name" className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
+              Template Name
+            </label>
+            <input
+              id="template-name"
+              type="text"
+              value={templateName}
+              onChange={(e) => setTemplateName(e.target.value)}
+              placeholder="My Case Template"
+              className="w-full rounded-md border bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
         </div>
       </div>
 
@@ -222,6 +239,7 @@ export function Toolbar() {
           <Download size={16} />
           Export Template JSON
         </button>
+        <p className="mt-2 text-xs text-slate-400">The download filename now follows your template name automatically.</p>
       </div>
     </aside>
   );

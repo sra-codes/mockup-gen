@@ -1,4 +1,8 @@
+import path from 'node:path';
 import type {NextConfig} from 'next';
+import { fileURLToPath } from 'node:url';
+
+const configRoot = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -20,6 +24,7 @@ const nextConfig: NextConfig = {
     ],
   },
   output: 'standalone',
+  outputFileTracingRoot: configRoot,
   transpilePackages: ['motion'],
   webpack: (config, {dev}) => {
     // Allow HMR to be disabled in constrained editing environments.

@@ -4,7 +4,18 @@ import { useTemplateStore } from '@/store/useTemplateStore';
 import { Trash2 } from 'lucide-react';
 
 export function PropertiesPanel() {
-  const { elements, selectedId, updateElement, deleteElement, coverProps, updateCoverProps } = useTemplateStore();
+  const {
+    elements,
+    selectedId,
+    updateElement,
+    deleteElement,
+    coverProps,
+    updateCoverProps,
+    templateName,
+    previewMode,
+    backgroundWidth,
+    backgroundHeight,
+  } = useTemplateStore();
 
   if (selectedId === 'cover') {
     return (
@@ -67,8 +78,30 @@ export function PropertiesPanel() {
 
   if (!selectedElement) {
     return (
-      <aside className="w-72 bg-white border-l h-full shadow-sm z-20 p-6 flex flex-col items-center justify-center text-slate-400">
-        <p className="text-sm text-center">Select a cover image or overlay to inspect and edit its properties.</p>
+      <aside className="w-72 bg-white border-l h-full shadow-sm z-20 p-6 flex flex-col justify-center text-slate-400">
+        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Current Template</p>
+            <p className="mt-1 text-sm font-medium text-slate-700">{templateName}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="rounded-lg bg-white p-3 border border-slate-200">
+              <p className="text-xs uppercase tracking-wider text-slate-400">Overlays</p>
+              <p className="mt-1 font-semibold text-slate-700">{elements.length}</p>
+            </div>
+            <div className="rounded-lg bg-white p-3 border border-slate-200">
+              <p className="text-xs uppercase tracking-wider text-slate-400">Preview</p>
+              <p className="mt-1 font-semibold text-slate-700">{previewMode ? 'On' : 'Off'}</p>
+            </div>
+            <div className="rounded-lg bg-white p-3 border border-slate-200 col-span-2">
+              <p className="text-xs uppercase tracking-wider text-slate-400">Frame Size</p>
+              <p className="mt-1 font-semibold text-slate-700">
+                {backgroundWidth > 0 && backgroundHeight > 0 ? `${backgroundWidth} × ${backgroundHeight}` : 'No frame loaded'}
+              </p>
+            </div>
+          </div>
+        </div>
+        <p className="mt-4 text-sm text-center">Select a cover image or overlay to inspect and edit its properties.</p>
       </aside>
     );
   }
