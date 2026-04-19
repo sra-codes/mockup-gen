@@ -1,7 +1,7 @@
 'use client';
 
 import { useTemplateStore } from '@/store/useTemplateStore';
-import { ImagePlus, Square, Circle, Undo, Redo, Trash2, Download, RefreshCw, Smartphone, Eye, EyeOff } from 'lucide-react';
+import { ImagePlus, Square, Circle, Undo, Redo, Download, RefreshCw, Smartphone, Eye, EyeOff } from 'lucide-react';
 import { useRef } from 'react';
 import { PREDEFINED_MOCKUPS } from '@/lib/mockups';
 
@@ -14,6 +14,7 @@ export function Toolbar() {
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
+  const canExport = backgroundWidth > 0 && backgroundHeight > 0;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -42,6 +43,10 @@ export function Toolbar() {
   };
 
   const handleExport = () => {
+    if (!canExport) {
+      return;
+    }
+
     // Export logic
     const exportData = {
       frame: 'frame.png', // Ideally the filename
@@ -66,10 +71,10 @@ export function Toolbar() {
       })),
     };
 
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportData, null, 2));
     const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "template.json");
+    downloadAnchorNode.setAttribute('href', dataStr);
+    downloadAnchorNode.setAttribute('download', 'mockup-template.json');
     document.body.appendChild(downloadAnchorNode);
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
@@ -97,6 +102,7 @@ export function Toolbar() {
               </optgroup>
             ))}
           </select>
+          <p className="text-xs text-slate-400">Start from a preset device outline or switch to your own frame below.</p>
         </div>
       </div>
 
@@ -210,10 +216,11 @@ export function Toolbar() {
         </div>
         <button 
           onClick={handleExport}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-md hover:bg-slate-800 transition-colors text-sm font-medium shadow-sm"
+          disabled={!canExport}
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-md hover:bg-slate-800 transition-colors text-sm font-medium shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
         >
           <Download size={16} />
-          Export Template
+          Export Template JSON
         </button>
       </div>
     </aside>

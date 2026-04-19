@@ -58,6 +58,8 @@ export interface TemplateState {
   loadMockup: (mockup: PhoneMockup) => void;
 }
 
+const defaultCoverProps: CoverProps = { x: 0, y: 0, scale: 1, rotation: 0 };
+
 const getDefaultElementProps = (type: ElementType, shape: ShapeType): Partial<TemplateElement> => {
   const base = {
     x: 100,
@@ -98,7 +100,7 @@ export const useTemplateStore = create<TemplateState>((set, get) => ({
   historyStep: 0,
   
   coverImage: null,
-  coverProps: { x: 0, y: 0, scale: 1, rotation: 0 },
+  coverProps: defaultCoverProps,
   previewMode: false,
 
   setBackgroundImage: (url, width = 0, height = 0) => set({ 
@@ -192,7 +194,7 @@ export const useTemplateStore = create<TemplateState>((set, get) => ({
     history: [[]],
     historyStep: 0,
     coverImage: null,
-    coverProps: { x: 0, y: 0, scale: 1, rotation: 0 },
+    coverProps: defaultCoverProps,
     previewMode: false,
   }),
   
@@ -210,6 +212,6 @@ export const useTemplateStore = create<TemplateState>((set, get) => ({
     selectedId: null,
     history: [mockup.getElements()],
     historyStep: 0,
-    coverProps: { x: 0, y: 0, scale: 1, rotation: 0 }
+    coverProps: defaultCoverProps
   }),
 }));

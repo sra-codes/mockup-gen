@@ -131,6 +131,7 @@ export function CanvasEditor() {
 
   const coverRef = useRef<any>(null);
   const coverTrRef = useRef<any>(null);
+  const hasScene = Boolean(backgroundImage || coverImage);
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -217,12 +218,18 @@ export function CanvasEditor() {
       ref={containerRef} 
       className="w-full h-full bg-slate-100 flex items-center justify-center overflow-hidden relative"
     >
-      {!backgroundImage && !coverImage && (
+      {!hasScene && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
           <div className="text-center text-slate-400">
-            <p className="text-lg font-medium">No Phone Frame Uploaded</p>
-            <p className="text-sm">Select a mockup or upload an image from the toolbar to get started.</p>
+            <p className="text-lg font-medium">Start a new template</p>
+            <p className="text-sm">Pick a preset mockup or upload a custom frame from the left panel.</p>
           </div>
+        </div>
+      )}
+
+      {previewMode && hasScene && (
+        <div className="absolute left-4 top-4 rounded-full bg-slate-900/85 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white z-10">
+          Preview mode
         </div>
       )}
 
@@ -334,6 +341,7 @@ export function CanvasEditor() {
       <div className="absolute bottom-4 right-4 bg-white rounded-md shadow-md flex items-center p-1 z-10 border">
         <button 
           onClick={() => setZoom(Math.max(0.1, zoom - 0.1))}
+          aria-label="Zoom out"
           className="w-8 h-8 flex items-center justify-center text-slate-600 hover:bg-slate-100 rounded"
         >
           -
@@ -341,6 +349,7 @@ export function CanvasEditor() {
         <span className="text-xs font-mono w-12 text-center">{Math.round(zoom * 100)}%</span>
         <button 
           onClick={() => setZoom(Math.min(5, zoom + 0.1))}
+          aria-label="Zoom in"
           className="w-8 h-8 flex items-center justify-center text-slate-600 hover:bg-slate-100 rounded"
         >
           +

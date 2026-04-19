@@ -15,6 +15,7 @@ export function PropertiesPanel() {
           </h2>
         </div>
         <div className="p-5 space-y-6">
+          <p className="text-sm text-slate-500">Adjust the uploaded artwork so it sits correctly inside the case frame.</p>
           <div className="space-y-4">
             <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Position & Scale</h3>
             <div className="grid grid-cols-2 gap-3">
@@ -67,7 +68,7 @@ export function PropertiesPanel() {
   if (!selectedElement) {
     return (
       <aside className="w-72 bg-white border-l h-full shadow-sm z-20 p-6 flex flex-col items-center justify-center text-slate-400">
-        <p className="text-sm text-center">Select an element to view its properties.</p>
+        <p className="text-sm text-center">Select a cover image or overlay to inspect and edit its properties.</p>
       </aside>
     );
   }
