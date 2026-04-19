@@ -146,11 +146,11 @@ export const PREDEFINED_MOCKUPS: PhoneMockup[] = [
     ]
   },
 
-  // GOOGLE
+  // PIXEL
   {
     id: 'pixel-8-pro',
     name: 'Pixel 8 Pro',
-    brand: 'Google',
+    brand: 'Pixel',
     width: 320,
     height: 660,
     getSvg: () => `data:image/svg+xml;utf8,<svg width="320" height="660" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="312" height="652" rx="35" fill="none" stroke="%231e293b" stroke-width="8"/></svg>`,
@@ -163,7 +163,7 @@ export const PREDEFINED_MOCKUPS: PhoneMockup[] = [
   {
     id: 'pixel-8',
     name: 'Pixel 8',
-    brand: 'Google',
+    brand: 'Pixel',
     width: 310,
     height: 640,
     getSvg: () => `data:image/svg+xml;utf8,<svg width="310" height="640" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="302" height="632" rx="35" fill="none" stroke="%231e293b" stroke-width="8"/></svg>`,
@@ -176,7 +176,7 @@ export const PREDEFINED_MOCKUPS: PhoneMockup[] = [
   {
     id: 'pixel-7a',
     name: 'Pixel 7a',
-    brand: 'Google',
+    brand: 'Pixel',
     width: 310,
     height: 640,
     getSvg: () => `data:image/svg+xml;utf8,<svg width="310" height="640" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="302" height="632" rx="30" fill="none" stroke="%231e293b" stroke-width="8"/></svg>`,
